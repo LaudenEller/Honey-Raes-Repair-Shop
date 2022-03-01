@@ -13,7 +13,7 @@ export const CustomerList = () => {
                     setCustomers(data) // use effect runs second time because the function is invoked that rerenders the DOM
                 })
         },
-        [] //this effect isn't watching a particular change so it runs once and then does not run again
+        [] //this effect is watching initial state so it runs once and then does not run again
     )
 
     useEffect(
