@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from "react"
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min"
 
 export const EmployeeList = () => {
     const [employees, assignEmployees] = useState([]) // "WHAT STATE DO I WANT THIS COMPONENT TO RENDER?" 
                                                         // define the array that you want to update, define the function you want to use to modify that array, 
                                                                 //and set them = to useState with an empy array inside parenthesis
     const [specialties, updateSpecialties] = useState("")
+   const history = useHistory()
+   
     useEffect(
         () => {
             fetch("http://localhost:8088/employees")
@@ -23,6 +26,7 @@ export const EmployeeList = () => {
 
     return (
         <>
+        <button onClick={() => history.push("/employees/create")}>Hire Employee</button>
         <div>Specialties: {specialties}</div>
             {
                 employees.map(

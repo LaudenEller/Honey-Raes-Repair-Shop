@@ -1,16 +1,17 @@
 import React, { useState } from "react"
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
-export const TicketForm = () => {
-    const [ticket, updateTicket] = useState({
+export const TicketForm = () => { // export a new function that is responsible for saving local state to JSON and returns a ticket form component
+    const [ticket, updateTicket] = useState({ // set initial state as an object with two keys
         description: "",
         emergency: false
     });
 
-    const history = useHistory()
+    const history = useHistory() // save the useHistory function imported from RouterDOM to a local variable
 
-    const submitTicket = (event) => {
-        const newTicket = {
+    const submitTicket = (event) => { // declare a function that accepts a click event from the submit button as an argument
+
+        const newTicket = { // declare a new object and set the keys using initial state, local storage, an id for JSON, and a date
             description: ticket.description,
             emergency: ticket.emergency,
             customerId: parseInt(localStorage.getItem("honey_customer")),
@@ -18,23 +19,24 @@ export const TicketForm = () => {
             dateCompleted: ""
         }
         
-        event.preventDefault()
+        event.preventDefault() // forces DOM to do something........
+
         const fetchOption = {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify(newTicket)
+            body: JSON.stringify(newTicket) // push new object to JSON as a "flat object" (a string)
         }
 
         return fetch("http://localhost:8088/serviceTickets", fetchOption)
         .then(response => response.json())
         .then(() => {
-            history.push("/tickets")
+            history.push("/tickets") // utilizes the RouterDOM history function and ApplicationViews.js to reroute the user to the tickets page
         })
     }
 
-    return (
+    return ( // this is what will render to the DOM
         <form className="ticketForm">
             <h2 className="ticketForm__title">New Service Ticket</h2>
             <fieldset>
@@ -45,7 +47,8 @@ export const TicketForm = () => {
                         type="text"
                         className="form-control"
                         placeholder="Brief description of problem"
-                        onChange={
+                        onChange={ // evenetListener observing the input field for changes, copies local state, 
+                                        // modifies it with user input, and invokes the updateTicket function passing the modified copy of state as an argument
                             (evt)=> {
                                 const copy = {...ticket}
                                 copy.description = evt.target.value
