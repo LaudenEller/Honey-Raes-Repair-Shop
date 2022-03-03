@@ -1,6 +1,14 @@
 import React, { useEffect, useState } from "react"
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min"
+import { Link } from "react-router-dom"
 import "./Tickets.css"
+
+const deleteTicket = (id) => {
+    fetch(`http://localhost:8088/serviceTickets/${id}`, {
+        method: "DELETE"
+    })
+}
+
 
 export const TicketList = () => {
     const [tickets, updateTickets] = useState([])
@@ -23,6 +31,17 @@ export const TicketList = () => {
         },
         []
     )
+    useEffect(
+        () => {
+            fetch("http://localhost:8088/serviceTickets?_expand=employee&_expand=customer")
+                .then(res => res.json())
+                .then((data) => {
+                    updateTickets(data)
+                } // invoke function that modifies data, do not modify data directly like in vanillaJs
+                )
+        },
+        [tickets]
+    )
 
     return (
         <>
@@ -31,8 +50,13 @@ export const TicketList = () => {
                 tickets.map(
                     (ticketObject) => {
                         return <p className={`ticket ${ticketObject.emergency ? "emergency" : ""}`} key={`ticket--${ticketObject.id}`}>
-                            {ticketObject.emergency ? "🚑" : ""}  {ticketObject.description} submitted by {ticketObject.customer.name}
-                            and worked on by {ticketObject.employee.name}</p> // must use KEY attribute which acts like an Id for React
+
+                            {ticketObject.emergency ? "🚑" : ""} <Link to={`/tickets/${ticketObject.id}`}>{ticketObject.description}</Link>
+                            , submitted by {ticketObject.customer.name} and worked on by {ticketObject.employee.name}
+
+                            <button onClick={() => {
+                                deleteTicket(ticketObject.id)
+                            }}>Delete</button></p>    // must use KEY attribute which acts like an Id for React
                     }
                 )
             }

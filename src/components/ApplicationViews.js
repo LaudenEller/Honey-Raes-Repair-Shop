@@ -5,6 +5,9 @@ import { TicketList } from "./serviceTickets/TicketList"
 import { Route } from "react-router-dom"
 import { TicketForm } from "./serviceTickets/TicketForm"
 import { EmployeeForm } from "./employees/EmployeeForm"
+import { Ticket } from "./serviceTickets/Ticket"
+import { Employee } from "./employees/Employee"
+
 
 export const ApplicationViews = () => {
     return (
@@ -23,6 +26,12 @@ export const ApplicationViews = () => {
             </Route>
             <Route exact path="/employees/create">
                 <EmployeeForm />
+            </Route>
+            <Route exact path="/tickets/:ticketId(\d+)">
+                <Ticket />
+            </Route>
+            <Route exact path="/employees/:employeeId(\d+)">
+                <Employee />
             </Route>
         </>
     )

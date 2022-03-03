@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react"
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min"
+import { Link } from "react-router-dom"
 
 export const EmployeeList = () => {
     const [employees, assignEmployees] = useState([]) // "WHAT STATE DO I WANT THIS COMPONENT TO RENDER?" 
@@ -31,7 +32,7 @@ export const EmployeeList = () => {
             {
                 employees.map(
                     (employeeObject) => {
-                        return <p key={`employee--${employeeObject.id}`}>{employeeObject.name}</p> // must use KEY attribute which acts like an Id for React
+                        return <p key={`employee--${employeeObject.id}`}><Link to={`/employees/${employeeObject.id}`}>{employeeObject.name}</Link></p> // must use KEY attribute which acts like an Id for React
                     }
                 )
             }
