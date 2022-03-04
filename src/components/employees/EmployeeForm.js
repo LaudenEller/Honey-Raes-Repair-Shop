@@ -27,7 +27,7 @@ export const EmployeeForm = () => {
         }
 
         return fetch("http://localhost:8088/employees", fetchOption)
-        .then(response => response.json())
+        // .then(response => response.json())
         .then(() => {
             history.push("/employees")
         })
