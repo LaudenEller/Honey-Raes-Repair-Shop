@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react"
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min"
 import { Link } from "react-router-dom"
 import "./Tickets.css"
+import { getAllTickets } from "../ApiManager"
 
 const deleteTicket = (id) => {
     fetch(`http://localhost:8088/serviceTickets/${id}`, {
@@ -22,22 +23,20 @@ export const TicketList = () => {
     )
     useEffect(
         () => {
-            fetch("http://localhost:8088/serviceTickets?_expand=employee&_expand=customer")
-                .then(res => res.json())
+            getAllTickets()
                 .then((data) => {
                     updateTickets(data)
-                } // invoke function that modifies data, do not modify data directly like in vanillaJs
+                }
                 )
         },
         []
     )
     useEffect(
         () => {
-            fetch("http://localhost:8088/serviceTickets?_expand=employee&_expand=customer")
-                .then(res => res.json())
+           getAllTickets()
                 .then((data) => {
                     updateTickets(data)
-                } // invoke function that modifies data, do not modify data directly like in vanillaJs
+                }
                 )
         },
         [tickets]
@@ -56,7 +55,7 @@ export const TicketList = () => {
 
                             <button onClick={() => {
                                 deleteTicket(ticketObject.id)
-                            }}>Delete</button></p>    // must use KEY attribute which acts like an Id for React
+                            }}>Delete</button></p>
                     }
                 )
             }

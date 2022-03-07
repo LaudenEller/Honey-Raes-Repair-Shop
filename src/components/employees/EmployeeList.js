@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react"
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min"
 import { Link } from "react-router-dom"
+import { getAllEmployees } from "../ApiManager"
 
 export const EmployeeList = () => {
     const [employees, assignEmployees] = useState([]) // "WHAT STATE DO I WANT THIS COMPONENT TO RENDER?" 
@@ -11,8 +12,7 @@ export const EmployeeList = () => {
    
     useEffect(
         () => {
-            fetch("http://localhost:8088/employees")
-                .then(res => res.json())
+            getAllEmployees()
                 .then((employeeArray) => { 
                     assignEmployees(employeeArray) } // invoke function that modifies data, do not modify data directly like in vanillaJs
                 )
@@ -20,7 +20,7 @@ export const EmployeeList = () => {
         []
     )
     useEffect(() => {
-            const specialties = employees.map(employee => employee.specialty)
+            const specialties = employees.map(employee => employee.specialty) // WHAT IS THIS DOING?
             updateSpecialties(specialties.join(", "))
         }, [employees]
         )
@@ -33,6 +33,7 @@ export const EmployeeList = () => {
                 employees.map(
                     (employeeObject) => {
                         return <p key={`employee--${employeeObject.id}`}><Link to={`/employees/${employeeObject.id}`}>{employeeObject.name}</Link></p> // must use KEY attribute which acts like an Id for React
+                                                                                                                                                        // Through this link is where the route parameter comes from for the useParams function on employee.js
                     }
                 )
             }

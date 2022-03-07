@@ -12,15 +12,16 @@ export const Login = () => {
         return fetch(`http://localhost:8088/customers?email=${email}`)
             .then(res => res.json())
             .then(user => user.length ? user[0] : false)
-    }
+    } // THIS USES A TERNARY OPERATOR TO RETURN ONLY CUSTOMER OBJECTS WITH AN EMAIL KEY FROM JSON
 
     const handleLogin = (e) => {
-        e.preventDefault()
-        existingUserCheck()
+        e.preventDefault() // WHAT DOES THIS DO??? browser form submission is a default behavior in the web browser
+        existingUserCheck() // CHECKS TO SEE IF CUSTOMER EXISTS
             .then(exists => {
                 if (exists) {
-                    localStorage.setItem("honey_customer", exists.id)
-                    history.push("/")
+                    localStorage.setItem("honey_customer", exists.id) // ADDS NEW key TO LOCAL STORAGE 
+                                                                            //WHICH IS WHAT APP CHECKS FOR BEFORE DISPLAYING HTML
+                    history.push("/") // WHAT DOES THIS DO?
                 } else {
                     existDialog.current.showModal()
                 }

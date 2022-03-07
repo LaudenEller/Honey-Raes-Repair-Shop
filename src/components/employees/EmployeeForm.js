@@ -12,11 +12,10 @@ export const EmployeeForm = () => {
     const hireEmployee = (event) => {
         const newEmployee = {
             name: employee.name,
-            specialty: employee.specialty,
-            employeeId: 1
+            specialty: employee.specialty
         }
         
-        event.preventDefault()
+        event.preventDefault() // WHAT DOES THIS DO?
 
         const fetchOption = {
             method: "POST",
@@ -27,7 +26,6 @@ export const EmployeeForm = () => {
         }
 
         return fetch("http://localhost:8088/employees", fetchOption)
-        // .then(response => response.json())
         .then(() => {
             history.push("/employees")
         })
@@ -56,7 +54,7 @@ export const EmployeeForm = () => {
             </fieldset>
             <fieldset>
                 <div className="form-group">
-                    <label htmlFor="specialty">specialty:</label>
+                    <label htmlFor="specialty">Specialty:</label>
                     <input 
                         required autoFocus
                         type="text"

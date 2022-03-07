@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react"
 import { useParams, useHistory } from "react-router-dom"
+import { getAllEmployees } from "../ApiManager"
 
 export const Ticket = () => {
     const [ticket, assignTicket] = useState({})  // State variable for current ticket object
@@ -24,8 +25,7 @@ export const Ticket = () => {
     // Fetch all employees
     useEffect(
         () => {
-            fetch(`http://localhost:8088/employees`)
-                .then(res => res.json())
+            getAllEmployees()
                 .then(syncEmployees) // Notice the implicit data that was returned being passed as a parameter
         },
         []  // Empty dependency array only reacts to JSX initial rendering
@@ -43,7 +43,7 @@ export const Ticket = () => {
             dateCompleted: ticket.dateCompleted
         }
 
-        // Perform the PUT HTTP request to replace the resource
+        // Perform the PUT HTTP request to replace the resource, notice the use or useParams to target the individual ticket object to be replaced
         fetch(`http://localhost:8088/serviceTickets/${ticketId}`, {
             method: "PUT",
             headers: {
@@ -60,7 +60,7 @@ export const Ticket = () => {
         <>
             <section className="ticket">
                 <h3 className="ticket__description">{ticket.description}</h3>
-                <div className="ticket__customer">Submitted by {ticket.customer?.name}</div>
+                <div className="ticket__customer">Submitted by {ticket.customer?.name}</div> {/* optional chaining operator evaluates the key before the ? and if it exists, evaluates the key after the ? */}
                 <div className="ticket__employee">Assigned to
                     <select
                         value={ ticket.employeeId }
